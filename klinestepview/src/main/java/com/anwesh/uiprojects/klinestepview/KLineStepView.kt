@@ -207,4 +207,13 @@ class KLineStepView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activiy : Activity) : KLineStepView {
+            val view : KLineStepView = KLineStepView(activiy)
+            activiy.setContentView(view)
+            return view
+        }
+    }
 }
