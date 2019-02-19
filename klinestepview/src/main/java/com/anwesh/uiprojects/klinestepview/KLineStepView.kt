@@ -27,3 +27,29 @@ fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
 fun Float.mirrorValue(a : Int, b : Int) : Float = (1 - scaleFactor()) * a.inverse() + scaleFactor() * b.inverse()
 fun Float.updateValue(dir : Float, a : Int, b : Int) : Float = mirrorValue(a, b) * dir * scGap
+
+fun Canvas.drawKLNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = h / (nodes + 1)
+    val sc1 : Float = scale.divideScale(0, 2)
+    val sc2 : Float = scale.divideScale(1, 2)
+    val size : Float = gap / sizeFactor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.color = foreColor
+    save()
+    translate(w / 2, gap * (i + 1))
+    rotate(90f * sc2)
+    for (j in 0..(lines - 1)) {
+        for (k in 0..1) {
+            val sizeSc : Float = size / 2 * sc2 * (k) + size / 2 * (1 - k)
+            save()
+            translate(size / 2, -size / 2)
+            rotate(135f * k)
+            drawLine(0f, 0f, -sizeSc, sizeSc, paint)
+            restore()
+        }
+    }
+    restore()
+}
