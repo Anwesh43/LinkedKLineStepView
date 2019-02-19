@@ -42,14 +42,18 @@ fun Canvas.drawKLNode(i : Int, scale : Float, paint : Paint) {
     translate(w / 2, gap * (i + 1))
     rotate(90f * sc2)
     for (j in 0..(lines - 1)) {
+        val sc : Float = sc1.divideScale(j, lines)
+        save()
+        rotate(90f * j)
         for (k in 0..1) {
-            val sizeSc : Float = size / 2 * sc2 * (k) + size / 2 * (1 - k)
+            val sizeSc : Float = size / 2 * sc * (k) + size / 2 * (1 - k)
             save()
             translate(size / 2, -size / 2)
-            rotate(135f * k)
+            rotate((135f + 90f * (j % 2)) * k)
             drawLine(0f, 0f, -sizeSc, sizeSc, paint)
             restore()
         }
+        restore()
     }
     restore()
 }
